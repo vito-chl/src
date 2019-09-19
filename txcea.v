@@ -10,7 +10,7 @@ module txcea(
 	output	[x:0]	req_cmd, // 请求数据标志
 	input	[7:0]	ret_data, // 请求的数据的返回
 	
-	input	[x:0]	cmd, // 总线数据解析模块发送过来的命令
+	input	[x:0]	cmd // 总线数据解析模块发送过来的命令
 );
 
 

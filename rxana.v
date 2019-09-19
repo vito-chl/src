@@ -30,7 +30,25 @@ module rxana(
 //*****************************  mianStaM  *****************************
 // * 
 //**********************************************************************
-reg []
+
+parameter STA_WAIT 		= 13'b0000000000000; // 等待命令状态
+parameter STA_HEAD_1 	= 13'b0000000000001; // 接收第一个帧头
+parameter STA_HEAD_2 	= 13'b0000000000010; // 接收第二个帧头
+parameter STA_CNT_1 	= 13'b0000000000100; // 接收第一个长度
+parameter STA_CNT_2 	= 13'b0000000001000; // 接收第二个长度
+parameter STA_DLY 		= 13'b0000000010000; // 接收到非当前ID命令，等待发送完成
+parameter STA_SID 		= 13'b0000000100000; // 接收传感器ID
+parameter STA_SRW 		= 13'b0000001000000; // 接收传感器读写标志
+parameter STA_RCD1 		= 13'b0000010000000; // 接收数据1
+parameter STA_RCD2 		= 13'b0000100000000; // 接收数据2
+parameter STA_RCD3 		= 13'b0001000000000; // 接收数据3
+parameter STA_RCD4 		= 13'b0010000000000; // 接收数据4
+parameter STA_CRC1		= 13'b0100000000000; // CRC1
+parameter STA_CRC2 		= 13'b1000000000000; // CRC2
+
+
+reg []	FSM_CS; // 当前状态机状态
+reg []	FSM_NS; // 状态机下一状态
 
 
 endmodule
