@@ -30,12 +30,20 @@ module rxana(
 
 // 接收的数据的存储
 reg [7:0] RX_DATA;
+reg [7:0] RX_DATA_R;
 
 always @(*) begin
 	if(rx_flag)
-		RX_DATA = rx_data;
+		RX_DATA_R = rx_data;
 	else
-		RX_DATA = RX_DATA;
+		RX_DATA_R = RX_DATA_R;
+end
+
+always @ (posedge sys_clk or sys_rst) begin
+	if(!sys_rst)
+		RX_DATA <=  8'b0000_0000;
+	else
+		RX_DATA <=  RX_DATA_R;
 end
 
 //*****************************  mianStaM  *****************************
@@ -109,7 +117,7 @@ always @(*) begin
 			else
 				FSM_NS = STA_WAIT;
 		end
-		STA_HEAD_1： begin // 接收头1
+		STA_HEAD_1: begin // 接收头1
 			if(rx_flag)
 				FSM_NS = STA_HEAD_2;
 			else
@@ -143,8 +151,12 @@ always @(*) begin
 				FSM_NS = STA_SID;
 		end
 		STA_SRW: begin // 接收读写标志位
-			if(rx_flag)
-				FSM_NS = STA_RCD1;
+			if(rx_flag) begin
+				if(SEN_W)
+					FSM_NS = STA_RCD1;
+				else
+					FSM_NS = STA_CRC1;
+			end
 			else
 				FSM_NS = STA_SRW;
 		end
@@ -179,10 +191,10 @@ always @(*) begin
 				FSM_NS = STA_CRC1;
 		end
 		STA_CRC2: begin // 接收CRC2
-			if(rx_flag)
+			//if(rx_flag)
 				FSM_NS = STA_SENDCMD;
-			else
-				FSM_NS = STA_CRC2;
+			//else
+			//	FSM_NS = STA_CRC2;
 		end
 		STA_SENDCMD: begin // 一个周期完成指令发送
 			FSM_NS = STA_WAIT;
@@ -205,13 +217,16 @@ always @(*) begin
 	case(FSM_CS)
 		STA_WAIT: begin // 等待过程，接到数据变成 HEAD1 否则保持等待
 			RET_CMD_FLAG_R = 1'b0; // 清除发送标志
-			SEND_CMD_FLAG <= 1'b0;
+			REC_ID_R = 16'b0000_0000_0000_0000;
+			RET_CMD_R = 8'b0000_0000;
+			SEND_CMD_R = 40'h0000_0000_00;
+			SEND_CMD_FLAG_R = 1'b0;
 		end
-		STA_HEAD_1： begin // 接收头1
-			REC_ID_R[7:0] = RX_DATA;
+		STA_HEAD_1: begin // 接收头1
+			REC_ID_R = {RX_DATA, 8'b0000_0000};
 		end
 		STA_HEAD_2: begin // 接收头2
-			REC_ID_R[15:8] = RX_DATA;
+			REC_ID_R[7:0] = RX_DATA;
 		end
 		STA_CNT_1: begin // 接收字节数1
 			if(!ID_RIGHT)
@@ -293,5 +308,14 @@ always @(posedge sys_clk or negedge sys_rst) begin
 		SEND_CMD_FLAG <= SEND_CMD_FLAG_R;
 	end
 end
+
+// 总线数据生成模块
+assign	ret_cmd = RET_CMD; // 返回命令 
+assign	ret_cmd_flg = RET_CMD_FLAG; // 返回命令有效标志
+
+// 传感器命令模块
+assign	sen_cmd = SEND_CMD; // 前8位：传感器ID 其他：要发送给传感器的数据
+assign	sen_cmd_flag = SEND_CMD_FLAG;	// 发送的数据 
+
 
 endmodule
