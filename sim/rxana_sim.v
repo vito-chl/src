@@ -1,6 +1,6 @@
 `timescale 10ns/10ns
 
-module tran_tb();
+module rxana_sim();
 
 reg clk;
 reg rst_n;
