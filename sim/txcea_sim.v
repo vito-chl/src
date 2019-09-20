@@ -17,7 +17,7 @@ reg 			w_cmd_flag       ;
 
 txcea t(
 	.sys_clk(clk),
-	.sys_rst(rst),
+	.sys_rst(rst_n),
 	.req_cmd(w_req_cmd), // 向存储模块请求数据指令
 	.req_cmd_flag(w_req_cmd_flag), // 请求数据有效标志
 	.req_data_flag(w_req_data_flag), // 数据返回有效标总
@@ -62,34 +62,34 @@ begin
 
 //id1
 	#10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //id2
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //cnt1
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //cnt2
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //d1
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //d2
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //d3
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //d4
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //c1
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 //c2
     #10 w_bus_send_finish = 1'b1;
-	#2  w_rx_flag = 1'b0;
+	#2  w_bus_send_finish = 1'b0;
 
 
 	#10000000 $stop;

@@ -325,7 +325,7 @@ always @(*) begin
 end
 
 // 单周期计数器
-always @(negedge sys_clk or posedge sys_rst) begin
+always @(posedge sys_clk or negedge sys_rst) begin
 	if(!sys_rst) begin
 		id_1_send 	<= 1'b1;
 		id_2_send 	<= 1'b1;
@@ -354,6 +354,7 @@ always @(negedge sys_clk or posedge sys_rst) begin
 		STA_ID_1: id_1_send 	<= 1'b0;
 		STA_ID_2: id_2_send 	<= 1'b0;  
 		STA_CNT_1: cnt_1_send 	<= 1'b0;
+		STA_CNT_2: cnt_2_send 	<= 1'b0;
 		STA_DATA_1: data_1_send <= 1'b0;
 		STA_DATA_2: data_2_send <= 1'b0;
 		STA_DATA_3: data_3_send <= 1'b0;
@@ -371,7 +372,7 @@ reg 	  out_req_cmd_flag;
 reg [7:0] out_bus_data;
 reg 	  out_bus_data_flag;
 
-always @(posedge sys_rst or negedge sys_rst) begin
+always @(posedge sys_clk or negedge sys_rst) begin
 	if(!sys_rst) begin
 		out_req_cmd <= 8'h00;
 		out_bus_data <= 8'h00;
