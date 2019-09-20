@@ -221,6 +221,7 @@ always @(*) begin
 			RET_CMD_R = 8'b0000_0000;
 			SEND_CMD_R = 40'h0000_0000_00;
 			SEND_CMD_FLAG_R = 1'b0;
+			REC_CNT_R = 16'h0000;
 		end
 		STA_HEAD_1: begin // 接收头1
 			REC_ID_R = {RX_DATA, 8'b0000_0000};
@@ -230,13 +231,15 @@ always @(*) begin
 		end
 		STA_CNT_1: begin // 接收字节数1
 			if(!ID_RIGHT)
-				REC_CNT_R[7:0] = RX_DATA;
+				REC_CNT_R[15:8] = RX_DATA;
 			else
-				REC_CNT_R[7:0] = 8'b0000_0000;
+				REC_CNT_R[15:8] = 8'b0000_0000;
 		end
 		STA_CNT_2: begin // 接收字节数2
-			if(!ID_RIGHT)
-				REC_CNT_R[15:8] = RX_DATA;
+			if(!ID_RIGHT) begin
+				REC_CNT_R[7:0] = RX_DATA;
+				//REC_CNT_R = REC_CNT_R + 16'b0000_0000_0000_0001;
+			end
 			else
 				REC_CNT_R[7:0] = 8'b0000_0000;
 		end

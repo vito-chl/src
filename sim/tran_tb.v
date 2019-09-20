@@ -54,7 +54,8 @@ begin
 //发送第二个ID
 	#10
 	w_rx_flag = 1'b1;
-	w_rx_data = 8'b0000_0001;
+	w_rx_data = 8'b0000_0001; // 发送正确的ID
+	//w_rx_data = 8'b0000_0000; // 发送不正确的ID
 
 	#2
 	w_rx_flag = 1'b0;
@@ -72,7 +73,7 @@ begin
 //发送第二个长度
 	#10
 	w_rx_flag = 1'b1;
-	w_rx_data = 8'b0000_0110;
+	w_rx_data = 8'b0000_0010;
 
 	#2
 	w_rx_flag = 1'b0;
