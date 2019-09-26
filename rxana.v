@@ -50,7 +50,8 @@ always @ (posedge sys_clk or negedge sys_rst) begin
 		RX_DATA <=  8'b0000_0000;
 	else if(rx_flag)
 		RX_DATA <=  rx_data;
-	else;
+	else
+		RX_DATA <=  RX_DATA;
 end
 
 //*****************************  mianStaM  *****************************

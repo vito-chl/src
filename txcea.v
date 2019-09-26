@@ -57,7 +57,8 @@ always @ (posedge sys_clk or negedge sys_rst) begin
 		rx_cmd <=  8'b0000_0000;
 	else if(rx_flag)
 		rx_cmd <=  cmd;
-	else;
+	else
+		rx_cmd <=  rx_cmd;
 end
 
 // 请求返回的数据的存储
