@@ -72,7 +72,7 @@ always @(*) begin
 		rx_req_data_r = rx_req_data_r;
 end
 
-always @ (posedge sys_clk or sys_rst) begin
+always @ (posedge sys_clk or negedge sys_rst) begin
 	if(!sys_rst)
 		rx_req_data <=  32'h0000_0000;
 	else
@@ -221,7 +221,7 @@ always @(*) begin
 			out_bus_data_flag_r = 1'b0;
 		end
 		STA_REQ_REG: begin
-			out_req_cmd_r = rx_cmd_r;
+			out_req_cmd_r = rx_cmd;
 			out_req_cmd_flag_r = 1'b1;
 		end
 		STA_REC_REG: begin 
