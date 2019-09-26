@@ -30,20 +30,27 @@ module rxana(
 
 // 接收的数据的存储
 reg [7:0] RX_DATA;
-reg [7:0] RX_DATA_R;
+// reg [7:0] RX_DATA_R;
 
-always @(*) begin
-	if(rx_flag)
-		RX_DATA_R = rx_data;
-	else
-		RX_DATA_R = RX_DATA_R;
-end
+// always @(*) begin
+// 	if(rx_flag)
+// 		RX_DATA_R = rx_data;
+// 	else
+// 		RX_DATA_R = RX_DATA_R;
+// end
 
-always @ (posedge sys_clk or sys_rst) begin
+// always @ (posedge sys_clk or negedge sys_rst) begin
+// 	if(!sys_rst)
+// 		RX_DATA <=  8'b0000_0000;
+// 	else
+// 		RX_DATA <=  RX_DATA_R;
+// end
+always @ (posedge sys_clk or negedge sys_rst) begin
 	if(!sys_rst)
 		RX_DATA <=  8'b0000_0000;
-	else
-		RX_DATA <=  RX_DATA_R;
+	else if(rx_flag)
+		RX_DATA <=  rx_data;
+	else;
 end
 
 //*****************************  mianStaM  *****************************

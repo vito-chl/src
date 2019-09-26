@@ -37,20 +37,27 @@ module txcea(
 
 // 命令的存储
 reg [7:0] rx_cmd;
-reg [7:0] rx_cmd_r;
+// reg [7:0] rx_cmd_r;
 
-always @(*) begin
-	if(cmd_flag)
-		rx_cmd_r = cmd;
-	else
-		rx_cmd_r = rx_cmd_r;
-end
+// always @(*) begin
+// 	if(cmd_flag)
+// 		rx_cmd_r = cmd;
+// 	else
+// 		rx_cmd_r = rx_cmd_r;
+// end
 
-always @ (posedge sys_clk or sys_rst) begin
+// always @ (posedge sys_clk or sys_rst) begin
+// 	if(!sys_rst)
+// 		rx_cmd <=  8'b0000_0000;
+// 	else
+// 		rx_cmd <=  rx_cmd_r;
+// end
+always @ (posedge sys_clk or negedge sys_rst) begin
 	if(!sys_rst)
 		rx_cmd <=  8'b0000_0000;
-	else
-		rx_cmd <=  rx_cmd_r;
+	else if(rx_flag)
+		rx_cmd <=  cmd;
+	else;
 end
 
 // 请求返回的数据的存储
