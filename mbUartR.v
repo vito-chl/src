@@ -119,8 +119,8 @@ always @(posedge clk or negedge rst_n) begin
 		uart_done <= 1'b1;
 	end
 	else begin
-		uart_data <= uart_data;	
-		uart_done <= uart_done;
+		uart_data <= 8'd0;
+		uart_done <= 1'b0;
 	end
 end
 
