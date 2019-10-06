@@ -1,8 +1,6 @@
-// COMMIT: modbus串口服务模块
-// DSC:
-// 	接收总线上的数据，发出数据和数据有效标志
+// COMMIT: 接收组件 串口接收
 
-module mbUartR(
+module rcomp_uart(
     input   clk, 
 	input   rst_n, 
 
@@ -16,10 +14,10 @@ module mbUartR(
 // * 数据<uart_data>准备好，同时接收标志<uart_done>发出一个周期的高电平
 //**********************************************************************
 
-
 // 参数设置
-parameter   CLK_FREQ = 50000000; 
 parameter   UART_BPS = 115200;
+
+localparam   CLK_FREQ = 50000000; 
 localparam  BPS_CNT = CLK_FREQ/UART_BPS; 
 
 // 下降沿寄存
